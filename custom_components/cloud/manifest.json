@@ -1,6 +1,8 @@
 {
     "domain": "cloud",
     "name": "Cloud",
+    "documentation": "https://github.com/benquan/cloud",
+    "issue_tracker": "https://github.com/benquan/cloud/issues",
     "codeowners": ["@benquan"],
     "version": "1.0"
   }
