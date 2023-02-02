@@ -1,0 +1,6 @@
+{
+    "domain": "cloud",
+    "name": "Cloud",
+    "codeowners": ["@benquan"],
+    "version": "1.0"
+  }
