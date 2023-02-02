@@ -1,8 +1,12 @@
 {
     "domain": "cloud",
-    "name": "Cloud",
+    "name": "Cloud Hider",
     "documentation": "https://github.com/benquan/cloud",
     "issue_tracker": "https://github.com/benquan/cloud/issues",
     "codeowners": ["@benquan"],
+    "dependencies": [],
+    "requirements": [],
+    "integration_type": "virtual",
+    "iot_class": "assumed_state",
     "version": "1.0"
   }

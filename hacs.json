@@ -1,6 +1,4 @@
 {
     "name": "Home Assistant Cloud Hider",
-    "domains": ["sensor"],
-    "iot_class": "Local Polling",
     "render_readme": true
 }
