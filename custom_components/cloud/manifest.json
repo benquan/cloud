@@ -6,7 +6,7 @@
     "codeowners": ["@benquan"],
     "dependencies": [],
     "requirements": [],
-    "integration_type": "virtual",
+    "integration_type": "system",
     "iot_class": "assumed_state",
     "version": "1.0"
   }
