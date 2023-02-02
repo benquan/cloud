@@ -9,7 +9,7 @@ This is an alternative to this process. It works by overriding the default compo
 ## Installation
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 
-The component can be installed from HACS (use the Custom Repository option), but follow the below instructions to install manually.
+The component can be installed from HACS (use the Custom Repository option), or follow the below instructions to install manually.
 1. Create a folder in your `config` directory (normally where your configuration.yaml file lives) named `custom_components`
 2. Create a folder in your `custom_components` named `cloud`
 3. Copy the 2 files (_init_.py, manifest.json) into the `cloud` folder
