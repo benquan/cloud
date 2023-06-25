@@ -1,0 +1,40 @@
+name: Update default_config
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+
+concurrency:
+  group: "${{ github.workflow }}@${{ github.ref_name }}"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions: write-all
+
+    steps:
+      - name: "Checkout Repo"
+        uses: actions/checkout@v3
+        with:
+          path: "clone"
+
+      - name: "Checkout Git https://github.com/home-assistant/core/"
+        uses: actions/checkout@v3
+        with:
+          repository: "home-assistant/core"
+          path: "core"
+
+      - name: Copy files from core repository
+        run: |
+          cp -Rvpf core/homeassistant/components/default_config clone/
+          rm -rf core
+
+      - name: Save changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply default_config changes
+          repository: clone
+          push_options: "--force"
