@@ -29,7 +29,14 @@ jobs:
           path: "core"
 
       - name: Copy files from core repository
-        run: rm -rf custom_components mkdir -p custom_components cp -Rvpf core/homeassistant/components/default_config custom_components/ rm -rf core
+        shell: bash
+        run: |
+          rm -rf clone/custom_components
+          mkdir -p clone/custom_components
+          cp -Rvpf core/homeassistant/components/default_config clone/custom_components/
+          sed -i '2i \  "version": "1.0.0.0",' clone/custom_components/default_config/manifest.json
+          sed -i '/cloud/d' clone/custom_components/default_config/manifest.json
+          rm -rf core
 
       - name: Save changes
         uses: stefanzweifel/git-auto-commit-action@v4

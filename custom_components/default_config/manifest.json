@@ -2,7 +2,9 @@
   "version": "1.0.0.0",
   "domain": "default_config",
   "name": "Default Config",
-  "codeowners": ["@home-assistant/core"],
+  "codeowners": [
+    "@home-assistant/core"
+  ],
   "dependencies": [
     "application_credentials",
     "assist_pipeline",
