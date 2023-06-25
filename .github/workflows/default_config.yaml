@@ -16,9 +16,10 @@ jobs:
     permissions: write-all
 
     steps:
-      - name: "Checkout Repo"
+      - name: "Checkout ${{ github.head_ref }}"
         uses: actions/checkout@v3
         with:
+          ref: ${{ github.head_ref }}
           path: "clone"
 
       - name: "Checkout Git https://github.com/home-assistant/core/"
@@ -28,13 +29,10 @@ jobs:
           path: "core"
 
       - name: Copy files from core repository
-        run: |
-          cp -Rvpf core/homeassistant/components/default_config clone/
-          rm -rf core
+        run: rm -rf custom_components mkdir -p custom_components cp -Rvpf core/homeassistant/components/default_config custom_components/ rm -rf core
 
       - name: Save changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply default_config changes
           repository: clone
-          push_options: "--force"
