@@ -1,0 +1,21 @@
+name: Automerge Dependabot
+
+on:
+  pull_request:
+  pull_request_target:
+    branches:
+      - "staging"
+
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge-dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v3
+        with:
+          target: minor
