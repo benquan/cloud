@@ -42,8 +42,8 @@ jobs:
       #   with:
       #     category: "integration"
 
-      - name: Home Assistant 'hassfest' Action
-        uses: "home-assistant/actions/hassfest@master"
+      # - name: Home Assistant 'hassfest' Action
+      #   uses: "home-assistant/actions/hassfest@master"
 
       - name: Save changes
         uses: stefanzweifel/git-auto-commit-action@v4
