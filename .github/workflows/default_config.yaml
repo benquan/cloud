@@ -37,10 +37,10 @@ jobs:
         shell: bash
         run: "clone/bin/update.sh"
 
-      - name: HACS Action
-        uses: "hacs/action@main"
-        with:
-          category: "integration"
+      # - name: HACS Action
+      #   uses: "hacs/action@main"
+      #   with:
+      #     category: "integration"
 
       - name: Home Assistant 'hassfest' Action
         uses: "home-assistant/actions/hassfest@master"
