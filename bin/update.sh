@@ -45,8 +45,12 @@ cd custom_components/default_config
 # Copy over the upstream files
 cp -Rpf "${START_DIR}/core/homeassistant/components/default_config" "${START_DIR}/custom_components"
 
+# Calculate last line of file
+LINE="$(grep --line-number '}' "${START_DIR}/custom_components/default_config/manifest.json" | awk -F ':' '{print $1}')"
+
 # Add in required data for the component to get loaded
-sed -i "2i \  \"version\": \"${HOME_ASSISTANT_CORE_LATEST_TAG}.1\"," "${START_DIR}/custom_components/default_config/manifest.json"
+sed -i -r 's/^(\s+.+\:.*[^,]")$/\1,/' "${START_DIR}/custom_components/default_config/manifest.json"
+sed -i "${LINE}i \  \"version\": \"${HOME_ASSISTANT_CORE_LATEST_TAG}.1\"" "${START_DIR}/custom_components/default_config/manifest.json"
 
 # Disable the 'cloud' integration.
 sed -i '/cloud/d' "${START_DIR}/custom_components/default_config/manifest.json"
