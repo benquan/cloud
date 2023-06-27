@@ -19,7 +19,7 @@ if [[ ! -d core ]]; then
 fi
 
 # Ensure that the core directory gets cleaned up on exit.
-trap 'rm -rf ${START_DIR}/core' EXIT
+trap "rm -rf "${START_DIR}/core"" EXIT
 
 # Create a variable for the source directory we are using.
 SRC_DIR="${START_DIR}/core/homeassistant/components/default_config"
