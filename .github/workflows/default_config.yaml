@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
     branches:
       - main
+  push:
+    branches:
+      - main
   schedule:
     - cron: "0 0 * * *"
 
