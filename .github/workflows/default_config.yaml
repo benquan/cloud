@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
     branches:
       - main
+  schedule:
+    - cron: "0 0 * * *"
 
 concurrency:
   group: "${{ github.workflow }}@${{ github.ref_name }}"
@@ -28,15 +30,9 @@ jobs:
           repository: "home-assistant/core"
           path: "core"
 
-      - name: Copy files from core repository
+      - name: Update files via script
         shell: bash
-        run: |
-          rm -rf clone/custom_components
-          mkdir -p clone/custom_components
-          cp -Rvpf core/homeassistant/components/default_config clone/custom_components/
-          sed -i '2i \  "version": "1.0.0.0",' clone/custom_components/default_config/manifest.json
-          sed -i '/cloud/d' clone/custom_components/default_config/manifest.json
-          rm -rf core
+        run: "clone/bin/update.sh"
 
       - name: Save changes
         uses: stefanzweifel/git-auto-commit-action@v4
