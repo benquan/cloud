@@ -16,10 +16,10 @@ if [[ ! -d core ]]; then
   # Clone the repo max-depth of 1 commit as we only need the latest.
   git clone --depth 1 --recursive https://github.com/home-assistant/core/
 
-  # Ensure that the core directory gets cleaned up on exit.
-  trap 'rm -rf ${START_DIR}/core' EXIT
-
 fi
+
+# Ensure that the core directory gets cleaned up on exit.
+trap 'rm -rf ${START_DIR}/core' EXIT
 
 # Create a variable for the source directory we are using.
 SRC_DIR="${START_DIR}/core/homeassistant/components/default_config"
