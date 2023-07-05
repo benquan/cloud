@@ -1,0 +1,4 @@
+#!/bin/bash
+cd "$(dirname "$(dirname "${0}")")" || exit 1
+set -e -o pipefail
+gh run list --limit 9999 --json databaseId -q '.[].databaseId' | xargs -IID gh api "repos/$(gh repo view --json nameWithOwner -q .nameWithOwner)/actions/runs/ID" -X DELETE --silent 2>/dev/null
