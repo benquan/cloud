@@ -36,6 +36,7 @@ jobs:
       - uses: oprypin/find-latest-tag@v1
         with:
           repository: home-assistant/core
+          releases-only: true
         id: latest_tag
 
       - run: echo "latest_tag is ${{ steps.latest_tag.outputs.tag }}"
