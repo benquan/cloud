@@ -59,10 +59,4 @@ jobs:
         with:
           commit_message: Apply default_config changes
           repository: clone
-
-      - run: cd clone
-
-      - uses: rickstaa/action-create-tag@v1
-        with:
-          tag: "${{ steps.latest_tag.outputs.name }}"
-          tag_exists_error: false
+          tagging_message: "${{ steps.latest_tag.outputs.name }}"
