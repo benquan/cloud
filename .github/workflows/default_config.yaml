@@ -33,9 +33,9 @@ jobs:
           repository: "home-assistant/core"
           path: "core"
 
-      - uses: oprypin/find-latest-tag@v1
+      - uses: cardinalby/git-get-release-action@v1
         with:
-          repository: home-assistant/core
+          repo: home-assistant/core
           releases-only: true
         id: latest_tag
 
