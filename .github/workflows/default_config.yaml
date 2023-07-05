@@ -38,7 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           repo: home-assistant/core
-          releaseNameRegEx: "^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
+          releaseNameRegEx: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)'
           releases-only: true
         id: latest_tag
 
