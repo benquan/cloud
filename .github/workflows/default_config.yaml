@@ -55,6 +55,5 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Apply default_config changes
           repository: clone
           tagging_message: "${{ steps.latest_tag.outputs.name }}"
