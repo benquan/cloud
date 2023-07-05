@@ -33,15 +33,6 @@ jobs:
           repository: "home-assistant/core"
           path: "core"
 
-      - uses: cardinalby/git-get-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          repo: home-assistant/core
-          releaseNameRegEx: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)'
-          releases-only: true
-        id: latest_tag
-
       - name: Update files via script
         shell: bash
         run: "clone/bin/update.sh"
@@ -54,9 +45,30 @@ jobs:
       # - name: Home Assistant 'hassfest' Action
       #   uses: "home-assistant/actions/hassfest@master"
 
-      - name: Save changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply default_config changes
           repository: clone
+
+  tag:
+    runs-on: ubuntu-latest
+
+    permissions: write-all
+
+    steps:
+      - name: "Checkout ${{ github.head_ref }}"
+        uses: actions/checkout@v3
+
+      - uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          repo: home-assistant/core
+          releaseNameRegEx: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)'
+          releases-only: true
+        id: latest_tag
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Generate Tag ${{ steps.latest_tag.outputs.name }}"
           tagging_message: "${{ steps.latest_tag.outputs.name }}"
