@@ -54,7 +54,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions: write-all
-
+    needs:
+      - build
     steps:
       - name: "Checkout ${{ github.head_ref }}"
         uses: actions/checkout@v3
@@ -65,7 +66,6 @@ jobs:
         with:
           repo: home-assistant/core
           releaseNameRegEx: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)'
-          releases-only: true
         id: latest_tag
 
       - uses: stefanzweifel/git-auto-commit-action@v4
