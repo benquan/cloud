@@ -42,7 +42,7 @@ jobs:
           releases-only: true
         id: latest_tag
 
-      - run: echo "latest_tag is ${{ steps.latest_tag.outputs.name }}"
+      - run: echo "latest_tag is "
 
       - name: Update files via script
         shell: bash
@@ -64,6 +64,5 @@ jobs:
 
       - uses: rickstaa/action-create-tag@v1
         with:
-          tag: "latest"
+          tag: "${{ steps.latest_tag.outputs.name }}"
           tag_exists_error: false
-          message: "Latest release"
