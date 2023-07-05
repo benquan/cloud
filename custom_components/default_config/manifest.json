@@ -46,5 +46,5 @@
   "documentation": "https://www.home-assistant.io/integrations/default_config",
   "integration_type": "system",
   "quality_scale": "internal",
-  "version": "2023.6.3.1"
+  "version": "2023.7.0.1"
 }
