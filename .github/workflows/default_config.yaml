@@ -42,7 +42,7 @@ jobs:
           releases-only: true
         id: latest_tag
 
-      - run: echo "latest_tag is ${{ steps.latest_tag.outputs.tag }}"
+      - run: echo "latest_tag is ${{ steps.latest_tag.outputs.name }}"
 
       - name: Update files via script
         shell: bash
