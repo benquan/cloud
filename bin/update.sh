@@ -50,7 +50,8 @@ LINE="$(grep --line-number '}' "${START_DIR}/custom_components/default_config/ma
 
 # Add in required data for the component to get loaded
 # sed -i -r 's/^(\s+.+\:.*[^,]")$/\1,/' "${START_DIR}/custom_components/default_config/manifest.json"
-cat <<<$(jq '. + { "version": "1.2.3.4" }' custom_components/default_config/manifest.json) >custom_components/default_config/manifest.json
+cat <<<$(jq '. + { "version": "1.2.3.4" }' custom_components/default_config/manifest.json) >${START_DIR}custom_components/default_config/manifest.json
+
 sed -i "${LINE}i \  \"version\": \"${HOME_ASSISTANT_CORE_LATEST_TAG}.1\"" "${START_DIR}/custom_components/default_config/manifest.json"
 
 # Disable the 'cloud' integration.
