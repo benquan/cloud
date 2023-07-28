@@ -8,7 +8,7 @@ START_DIR="${PWD}"
 set -e -o pipefail
 
 # Get the latest tag from the GitHub API.
-HOME_ASSISTANT_CORE_LATEST_TAG="$(curl -Ls https://api.github.com/repos/home-assistant/core/tags | jq '.[].name' | sed 's/"//g' | grep -Ev '[[:alpha:]]' | sort -V | tail -n 1)"
+HOME_ASSISTANT_CORE_LATEST_TAG="$(curl -Ls https://api.github.com/repos/home-assistant/core/tags | jq '.[].name' | sed 's/"//g' | sort -V | grep -E '\d{4}\.\d\.\d$' | tail -n 1)"
 
 # If we haven't already checked out the repo, do so now.
 if [[ ! -d core ]]; then
