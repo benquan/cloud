@@ -11,7 +11,7 @@ set -e -o pipefail
 if [[ ! -d core ]]; then
 
   # Clone the repo max-depth of 1 commit as we only need the latest.
-  git clone --depth 1 --recursive https://github.com/home-assistant/core/
+  git clone https://github.com/home-assistant/core/
 
 fi
 
