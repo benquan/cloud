@@ -7,9 +7,6 @@ START_DIR="${PWD}"
 # Ensure we exit if anything usingn a pipe ('|') fails.
 set -e -o pipefail
 
-# Get the latest tag from the GitHub API.
-HOME_ASSISTANT_CORE_LATEST_TAG="$(curl -Ls https://api.github.com/repos/home-assistant/core/tags | jq '.[].name' | sed 's/\"//g' | sort -V | grep -E '\d{4}\.\d\.\d$' | tail -n 1)"
-
 # If we haven't already checked out the repo, do so now.
 if [[ ! -d core ]]; then
 
@@ -19,7 +16,7 @@ if [[ ! -d core ]]; then
 fi
 
 # Ensure that the core directory gets cleaned up on exit.
-trap "rm -rf "${START_DIR}/core"" EXIT
+# trap "rm -rf "${START_DIR}/core"" EXIT
 
 # Create a variable for the source directory we are using.
 SRC_DIR="${START_DIR}/core/homeassistant/components/default_config"
@@ -32,6 +29,9 @@ test -d "${SRC_DIR}" || exit 1
 if [ -d clone ]; then
   cd clone
 fi
+
+# Get the latest tag from the GitHub API.
+HOME_ASSISTANT_CORE_LATEST_TAG="$(git ls-remote --tags 2>/dev/null | awk -F 'refs/tags/' '{print $2}' | sort -V | grep -E '\d{4}\.\d\.\d$' | tail -n 1)"
 
 # Clean out the old data if it exists.
 if [[ -d custom_components ]]; then
