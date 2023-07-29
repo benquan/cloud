@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Move to a known location and save as START_DIR.
 cd "$(dirname "$(dirname "${0}")")" || exit 1
