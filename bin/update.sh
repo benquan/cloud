@@ -16,7 +16,7 @@ if [[ ! -d core ]]; then
 fi
 
 # Ensure that the core directory gets cleaned up on exit.
-# trap "rm -rf "${START_DIR}/core"" EXIT
+trap "rm -rf "${START_DIR}/core"" EXIT
 
 # Create a variable for the source directory we are using.
 SRC_DIR="${START_DIR}/core/homeassistant/components/default_config"
@@ -34,6 +34,7 @@ fi
 HOME_ASSISTANT_CORE_LATEST_TAG="$(git ls-remote --tags 2>/dev/null | awk -F 'refs/tags/' '{print $2}' | sort -V | grep -E '\d{4}\.\d\.\d$' | tail -n 1)"
 
 # Clean out the old data if it exists.
+cd "${START_DIR}"
 if [[ -d custom_components ]]; then
   rm -rf custom_components
 fi
