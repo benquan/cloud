@@ -31,8 +31,7 @@ if [ -d clone ]; then
 fi
 
 # Get the latest tag from the GitHub API.
-git ls-remote --tags origin
-HOME_ASSISTANT_CORE_LATEST_TAG="$(git ls-remote --tags origin | awk -F 'refs/tags/' '{print $2}' | sort -V | grep -E '\d{4}\.\d\.\d$' | tail -n 1)"
+HOME_ASSISTANT_CORE_LATEST_TAG="$(git ls-remote --tags origin 2>&1 | awk -F 'refs/tags/' '{print $2}' | sort -V | grep -E '\d{4}\.\d\.\d$' | tail -n 1)"
 
 # Clean out the old data if it exists.
 cd "${START_DIR}"
