@@ -15,7 +15,7 @@ echo "latest_tag=${HOME_ASSISTANT_CORE_LATEST_TAG}" >>"$GITHUB_ENV"
 if [[ ! -d core ]]; then
 
   # Clone the repo max-depth of 1 commit as we only need the latest.
-  git clone https://github.com/home-assistant/core/
+  git clone --depth 1 https://github.com/home-assistant/core/
 
   # Ensure that the core directory gets cleaned up on exit.
   trap "rm -rf "${START_DIR}/core"" EXIT
@@ -28,22 +28,28 @@ SRC_DIR="${START_DIR}/core/homeassistant/components/default_config"
 # Check the source directory exists
 test -d "${SRC_DIR}" || exit 1
 
-# Clean out the old data if it exists.
-if [[ -d custom_components ]]; then
-  rm -rf custom_components
-fi
+# # Clean out the old data if it exists.
+# if [[ -d custom_components ]]; then
+#   rm -rf custom_components
+# fi
 
 # Create somewhere for our updated code to go.
-mkdir -p custom_components/default_config
+if [[ ! -d custom_components/default_config ]]; then
+  mkdir -p custom_components/default_config
+fi
 
 # Copy over the upstream files
-cp -Rpf "${START_DIR}/core/homeassistant/components/default_config" "${START_DIR}/custom_components"
+if rsync -avz "${START_DIR}/core/homeassistant/components/default_config" "${START_DIR}/custom_components" --dry-run | grep -q default_config; then
 
-# Add in required data for the component to get loaded
-cat <<<$(jq ". + { "version": \"${HOME_ASSISTANT_CORE_LATEST_TAG}.1\" }" ${START_DIR}/custom_components/default_config/manifest.json) >${START_DIR}/custom_components/default_config/manifest.json
+  rsync -avz "${START_DIR}/core/homeassistant/components/default_config" "${START_DIR}/custom_components"
 
-# Disable the 'cloud' integration.
-cat <<<$(jq 'del(.dependencies[] | select(. == "cloud"))' ${START_DIR}/custom_components/default_config/manifest.json) >${START_DIR}/custom_components/default_config/manifest.json
+  # Add in required data for the component to get loaded
+  cat <<<$(jq ". + { "version": \"${HOME_ASSISTANT_CORE_LATEST_TAG}.1\" }" ${START_DIR}/custom_components/default_config/manifest.json) >${START_DIR}/custom_components/default_config/manifest.json
 
-# Update hacs.json with the minimum homeassistant value for the latest release
-cat <<<$(jq ".homeassistant = \"${HOME_ASSISTANT_CORE_LATEST_TAG}\"" ${START_DIR}/hacs.json) >${START_DIR}/hacs.json
+  # Disable the 'cloud' integration.
+  cat <<<$(jq 'del(.dependencies[] | select(. == "cloud"))' ${START_DIR}/custom_components/default_config/manifest.json) >${START_DIR}/custom_components/default_config/manifest.json
+
+  # Update hacs.json with the minimum homeassistant value for the latest release
+  cat <<<$(jq ".homeassistant = \"${HOME_ASSISTANT_CORE_LATEST_TAG}\"" ${START_DIR}/hacs.json) >${START_DIR}/hacs.json
+
+fi
