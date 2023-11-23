@@ -48,5 +48,5 @@
   "documentation": "https://www.home-assistant.io/integrations/default_config",
   "integration_type": "system",
   "quality_scale": "internal",
-  "version": "2023.11.2.1"
+  "version": "2023.11.3.1"
 }
