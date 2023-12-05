@@ -26,7 +26,6 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           path: "clone"
-          submodules: "recursive"
 
       - name: "Checkout Git https://github.com/home-assistant/core/"
         uses: actions/checkout@v3

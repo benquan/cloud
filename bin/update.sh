@@ -24,14 +24,8 @@ if [[ ! -d upstream ]]; then
 
 fi
 
-if [[ -d core ]]; then
-  cd core
-  git pull --depth 1
-  cd "${START_DIR}"
-fi
-
 # Create a variable for the source directory we are using.
-SRC_DIR="${START_DIR}/core/homeassistant/components/default_config"
+SRC_DIR="${START_DIR}/upstream/homeassistant/components/default_config"
 
 # Check the source directory exists
 test -d "${SRC_DIR}" || exit 1
@@ -42,10 +36,10 @@ if [[ ! -d custom_components/default_config ]]; then
 fi
 
 # Check for changed files
-if [[ $(rsync -avz --checksum --dry-run ${START_DIR}/upstream/homeassistant/components/default_config ${START_DIR}/core/homeassistant/components | grep -c default_config) -gt 1 ]]; then
+if [[ $(rsync -avz --checksum --dry-run ${START_DIR}/upstream/homeassistant/components/default_config ${START_DIR}/custom_components | grep -c default_config) -gt 1 ]]; then
 
   # Copy over the upstream files
-  rsync -avz "${START_DIR}/core/homeassistant/components/default_config" "${START_DIR}/custom_components"
+  rsync -avz "${START_DIR}/upstream/homeassistant/components/default_config" "${START_DIR}/custom_components"
 
   # Add in required data for the component to get loaded
   cat <<<$(jq ". + { "version": \"${HOME_ASSISTANT_CORE_LATEST_TAG}.1\" }" ${START_DIR}/custom_components/default_config/manifest.json) >${START_DIR}/custom_components/default_config/manifest.json
