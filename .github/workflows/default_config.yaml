@@ -1,0 +1,61 @@
+name: Update default_config
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * *"
+
+concurrency:
+  group: "${{ github.workflow }}@${{ github.ref_name }}"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions: write-all
+
+    steps:
+      - name: "Checkout ${{ github.head_ref }}"
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          path: "clone"
+
+      - name: "Checkout Git https://github.com/home-assistant/core/"
+        uses: actions/checkout@v3
+        with:
+          repository: "home-assistant/core"
+          path: "upstream"
+
+      - name: Update files via script
+        shell: bash
+        run: "clone/bin/update.sh"
+
+      # - name: HACS Action
+      #   uses: "hacs/action@main"
+      #   with:
+      #     category: "integration"
+
+      # - name: Home Assistant 'hassfest' Action
+      #   uses: "home-assistant/actions/hassfest@master"
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        id: auto-commit-action
+        with:
+          repository: clone
+
+      - name: Create Release
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        uses: ncipollo/release-action@v1.12.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          skipIfReleaseExists: true
+          tag: "${{ env.latest_tag }}"
+          name: "Release ${{ env.latest_tag }}"
